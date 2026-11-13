@@ -1,0 +1,247 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+header {
+  background: #111827;
+  color: white;
+}
+
+.nav {
+  max-width: 1100px;
+  margin: auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.nav-right {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  font-size: .9rem;
+}
+
+.logout {
+  color: white;
+  text-decoration: none;
+  opacity: .85;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 38px 24px 70px;
+}
+
+h1 { font-size: 2rem; margin: 0 0 8px; }
+h2 { margin: 0; }
+.muted { color: #667085; }
+
+.page-heading { margin-bottom: 25px; }
+
+.printer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.printer-card, .reservations, .auth-card {
+  background: white;
+  border: 1px solid #e4e7ec;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(16, 24, 40, .05);
+}
+
+.printer-card { padding: 22px; }
+
+.printer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.printer-id {
+  color: #98a2b3;
+  font-size: .85rem;
+}
+
+.status {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.status.available {
+  background: #dcfae6;
+  color: #067647;
+}
+
+.status.in-use {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.status.reserved {
+  background: #fef0c7;
+  color: #b54708;
+}
+
+.field { margin-bottom: 20px; }
+
+label {
+  display: block;
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+input, select {
+  width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 9px;
+  padding: 10px 11px;
+  font: inherit;
+  background: white;
+}
+
+button, .button {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 14px;
+  background: #1d4ed8;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .button:hover { opacity: .9; }
+
+.secondary {
+  background: #eef2f6;
+  color: #344054;
+}
+
+.danger {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.actions {
+  display: grid;
+  gap: 10px;
+}
+
+details summary { list-style: none; text-align: center; }
+details summary::-webkit-details-marker { display: none; }
+
+.form {
+  display: grid;
+  gap: 10px;
+}
+
+.compact {
+  padding-top: 14px;
+}
+
+.time-row {
+  display: flex;
+  gap: 8px;
+}
+
+.time-row input { min-width: 0; }
+
+.usage-box {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: .9rem;
+}
+
+.usage-box p { margin: 7px 0; }
+
+.usage-box form { margin-top: 12px; }
+
+.reservations {
+  margin-top: 25px;
+  padding: 22px;
+}
+
+.reservation-list {
+  margin-top: 15px;
+  display: grid;
+  gap: 10px;
+}
+
+.reservation {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #eaecf0;
+  border-radius: 10px;
+}
+
+.reservation span {
+  display: block;
+  color: #667085;
+  font-size: .85rem;
+  margin-top: 3px;
+}
+
+.reservation-time {
+  font-size: .88rem;
+  color: #475467;
+}
+
+.flash {
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.flash.success { background: #dcfae6; color: #067647; }
+.flash.error { background: #fee4e2; color: #b42318; }
+
+.auth-card {
+  max-width: 420px;
+  margin: 55px auto;
+  padding: 30px;
+}
+
+.switch {
+  margin-top: 20px;
+  text-align: center;
+  font-size: .9rem;
+}
+
+a { color: #1d4ed8; }
+
+@media (max-width: 850px) {
+  .printer-grid { grid-template-columns: 1fr; }
+  .reservation { grid-template-columns: 1fr; }
+  .nav-right span { display: none; }
+}

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-heading">
+  <div>
+    <h1>3D Printer Status</h1>
+    <p class="muted">See what is available, what is being used, and upcoming reservations.</p>
+  </div>
+</div>
+
+<div class="printer-grid">
+{% for printer in printers %}
+  <section class="printer-card">
+    <div class="printer-top">
+      <div>
+        <h2>{{ printer["name"] }}</h2>
+        <div class="status {{ printer['status'].replace(' ', '-') }}">
+          {{ printer["status"]|title }}
+        </div>
+      </div>
+      <span class="printer-id">#{{ printer["id"] }}</span>
+    </div>
+
+    <div class="field">
+      <label>Filament loaded</label>
+      <form method="post" action="{{ url_for('set_filament', printer_id=printer['id']) }}" class="inline-form">
+        <select name="filament" onchange="this.form.submit()">
+          {% for filament in filaments %}
+            <option value="{{ filament }}" {% if filament == printer["filament"] %}selected{% endif %}>
+              {{ filament }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+
+    {% if printer["status"] == "in use" %}
+      <div class="usage-box">
+        <strong>Currently in use</strong>
+        <p>By: {{ printer["username"] }}</p>
+        <p>Estimated available: <strong>{{ printer["estimated_end"]|replace("T", " ")|truncate(16, True, "") }}</strong></p>
+
+        {% if printer["current_user_id"] == user["id"] %}
+          <form method="post" action="{{ url_for('release_printer', printer_id=printer['id']) }}">
+            <button class="secondary" type="submit">Mark print finished</button>
+          </form>
+        {% endif %}
+      </div>
+
+    {% elif printer["status"] == "reserved" %}
+      <div class="usage-box">
+        <strong>Reserved</strong>
+      </div>
+
+    {% else %}
+      <div class="actions">
+        <details>
+          <summary class="button">Use this printer</summary>
+          <form method="post" action="{{ url_for('start_print', printer_id=printer['id']) }}" class="form compact">
+            <label>Estimated print time</label>
+            <div class="time-row">
+              <input type="number" name="minutes" min="1" placeholder="Minutes" required>
+              <button type="submit">Start</button>
+            </div>
+          </form>
+        </details>
+
+        <details>
+          <summary class="button secondary">Reserve for later</summary>
+          <form method="post" action="{{ url_for('reserve_printer', printer_id=printer['id']) }}" class="form compact">
+            <label>Start time</label>
+            <input type="datetime-local" name="start_time" required>
+            <label>Reservation length</label>
+            <div class="time-row">
+              <input type="number" name="minutes" min="1" placeholder="Minutes" required>
+              <button type="submit">Reserve</button>
+            </div>
+          </form>
+        </details>
+      </div>
+    {% endif %}
+  </section>
+{% endfor %}
+</div>
+
+<section class="reservations">
+  <h2>Upcoming reservations</h2>
+  {% if reservations %}
+    <div class="reservation-list">
+      {% for r in reservations %}
+        <div class="reservation">
+          <div>
+            <strong>{{ r["printer_name"] }}</strong>
+            <span>reserved by {{ r["username"] }}</span>
+          </div>
+          <div class="reservation-time">
+            {{ r["start_time"]|replace("T", " ")|truncate(16, True, "") }}
+            →
+            {{ r["end_time"]|replace("T", " ")|truncate(16, True, "") }}
+          </div>
+          {% if r["user_id"] == user["id"] %}
+            <form method="post" action="{{ url_for('cancel_reservation', reservation_id=r['id']) }}">
+              <button class="danger" type="submit">Cancel</button>
+            </form>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">No upcoming reservations.</p>
+  {% endif %}
+</section>
+{% endblock %}
